@@ -1,3 +1,4 @@
+// App.js
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import Map from "./components/map/Map";
@@ -8,7 +9,6 @@ function App() {
     lat: 25.2048, //! Default Dubai Lat long
     lng: 55.2708,
   };
-
   const [branches, setBranches] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredMarkers, setFilteredMarkers] = useState([]);
@@ -28,11 +28,11 @@ function App() {
 
   useEffect(() => {
     getCompanyLocations(1);
+    setFilteredMarkers(markers || []); // Set initial state for filteredMarkers
   }, []);
 
   const data = branches && branches?.map((item) => item?.offices);
   const markersData = data && data?.flatMap((item) => item);
-
   const markers =
     markersData &&
     markersData?.map((branch, index) => ({
@@ -65,7 +65,6 @@ function App() {
     }
   };
 
-  console.log("markersData", markers);
   return (
     <main className="main_container">
       <div className="store-list">
@@ -84,22 +83,17 @@ function App() {
             <input
               placeholder="Search for branches"
               type="text"
-              style={{
-                width: "100%",
-                padding: "8px",
-              }}
+              style={{ width: "100%", padding: "8px" }}
               value={searchQuery}
               onChange={handleSearchChange}
             />
             <button onClick={handleSearch}>Search</button>
           </div>
         </div>
-
         {branches &&
           branches?.map((company) => (
             <ul className="list">{company?.nameEng}</ul>
           ))}
-
         {markers &&
           markers?.map((item) => (
             <ul className="list">
@@ -109,8 +103,11 @@ function App() {
             </ul>
           ))}
       </div>
-
-      <Map filteredMarkers={filteredMarkers} mapCenter={mapCenter} />
+      <Map
+        filteredMarkers={filteredMarkers}
+        mapCenter={mapCenter}
+        markers={markers}
+      />
     </main>
   );
 }
