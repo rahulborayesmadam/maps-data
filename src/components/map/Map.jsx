@@ -6,7 +6,7 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 
-const Map = ({ filteredMarkers, mapCenter, markers }) => {
+const Map = ({ filteredMarkers, mapCenter, markers, handleMarkerClick }) => {
   const [selectedMarker, setSelectedMarker] = useState(null);
 
   const mapContainerStyle = {
@@ -14,8 +14,9 @@ const Map = ({ filteredMarkers, mapCenter, markers }) => {
     width: "100%",
   };
 
-  const handleMarkerClick = (marker) => {
+  const handleMarkerClickLocal = (marker) => {
     setSelectedMarker(marker);
+    handleMarkerClick(marker);
   };
 
   const handleInfoWindowClose = () => {
@@ -28,14 +29,14 @@ const Map = ({ filteredMarkers, mapCenter, markers }) => {
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           center={mapCenter}
-          zoom={5}
+          zoom={8}
         >
           {(filteredMarkers.length > 0 ? filteredMarkers : markers).map(
             (marker) => (
               <MarkerF
                 key={marker.id}
                 position={marker.position}
-                onClick={() => handleMarkerClick(marker)}
+                onClick={() => handleMarkerClickLocal(marker)}
               >
                 {selectedMarker === marker && (
                   <InfoWindow

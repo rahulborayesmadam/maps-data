@@ -28,7 +28,7 @@ function App() {
 
   useEffect(() => {
     getCompanyLocations(1);
-    setFilteredMarkers(markers || []); // Set initial state for filteredMarkers
+    setFilteredMarkers(markers || []);
   }, []);
 
   const data = branches && branches?.map((item) => item?.offices);
@@ -65,6 +65,10 @@ function App() {
     }
   };
 
+  const handleMarkerClick = (marker) => {
+    setMapCenter(marker.position);
+  };
+
   return (
     <main className="main_container">
       <div className="store-list">
@@ -96,7 +100,11 @@ function App() {
           ))}
         {markers &&
           markers?.map((item) => (
-            <ul className="list">
+            <ul
+              className="list"
+              onClick={() => handleMarkerClick(item)}
+              style={{ cursor: "pointer" }}
+            >
               <li>{item?.country}</li>
               <li>{item?.name}</li>
               <li>{item?.email}</li>
@@ -107,6 +115,7 @@ function App() {
         filteredMarkers={filteredMarkers}
         mapCenter={mapCenter}
         markers={markers}
+        handleMarkerClick={handleMarkerClick}
       />
     </main>
   );
