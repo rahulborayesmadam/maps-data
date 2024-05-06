@@ -29,7 +29,7 @@ const Map = ({ filteredMarkers, mapCenter, markers, handleMarkerClick }) => {
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           center={mapCenter}
-          zoom={8}
+          zoom={7}
         >
           {(filteredMarkers.length > 0 ? filteredMarkers : markers).map(
             (marker) => (
@@ -38,7 +38,7 @@ const Map = ({ filteredMarkers, mapCenter, markers, handleMarkerClick }) => {
                 position={marker.position}
                 onClick={() => handleMarkerClickLocal(marker)}
               >
-                {selectedMarker === marker && (
+                {selectedMarker?.id === marker?.id && (
                   <InfoWindow
                     position={marker.position}
                     onCloseClick={handleInfoWindowClose}
@@ -46,6 +46,8 @@ const Map = ({ filteredMarkers, mapCenter, markers, handleMarkerClick }) => {
                     <div>
                       <h4>{marker.name}</h4>
                       <p>{marker.description}</p>
+                      <p>{marker?.email}</p>
+                      <p>{(marker?.position?.lat, marker?.position?.lng)}</p>
                     </div>
                   </InfoWindow>
                 )}
